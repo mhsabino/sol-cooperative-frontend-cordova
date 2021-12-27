@@ -2,18 +2,21 @@
 
 ```
 npm -version
-6.1.0
+6.9.0
 
 node --version
-v10.6.0
+v10.16.0
+
+gradle --version
+Gradle 6.0.1
 
 cordova --version
-8.1.2 (cordova-lib@8.1.1)
+9.0.0 (cordova-lib@9.0.1)
+
 ```
 
 - Criar symlink da pasta `/dist` - `ln -s ../sol-cooperative-frontend/dist www`
-- Adicionar plataforma iOS `cordova platform add ios@4.5.5`
-- Adicionar plataforma Android `cordova platform add android@7.1.2`
+- Adicionar plataforma Android `cordova platform add android 8.1.0`
 - Listar plataformas instaladas `cordova platform ls`
 - Listar requisitos `cordova requirements`
 
@@ -23,34 +26,30 @@ Android Studio project detected
 Requirements check results for android:
 Java JDK: installed 1.8.0
 Android SDK: installed true
-Android target: installed android-28,android-27,android-26,android-23
-Gradle: installed /usr/local/Cellar/gradle/5.0/bin/gradle
-
-Requirements check results for ios:
-Apple macOS: installed darwin
-Xcode: installed 9.4.1
-ios-deploy: installed 1.9.4
-CocoaPods: installed 1.5.3
+Android target: installed android-30,android-29,android-28
+Gradle: installed /home/mateus/.sdkman/candidates/gradle/6.0.1/bin/gradle
 ```
 
 Cada plataforma necessita de requisitos diferentes que podem ser [listados aqui](https://cordova.apache.org/docs/en/latest/guide/cli/#install-pre-requisites-for-building)
 
-Exemplo de paths adicionado no `~/.bashrc` ou `~/.zshrc`
+Exemplo de paths adicionado no `~/.bashrc` ou `~/.zshrc` ou ``~/.bash_profile``
 
 ```
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home
-export ANDROID_HOME=/Users/dpedoneze/Library/Android/sdk
-export PATH=${PATH}:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$JAVA_HOME/bin
-export CORDOVA_ANDROID_GRADLE_DISTRIBUTION_URL=https\://services.gradle.org/distributions/gradle-4.6-all.zip
+JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+export PATH=${JAVA_HOME}/bin:${PATH}
+export ANDROID_SDK_ROOT=$HOME/Android/Sdk
+export PATH=$PATH:$ANDROID_SDK_ROOT/emulator
+export PATH=$PATH:$ANDROID_SDK_ROOT/platform-tools
+export PATH=$PATH:$ANDROID_SDK_ROOT/cmdline-tools
 ```
 
 Para adicionar `Android target` você precisa fazer isso pela GUI do Android Studio (`Preferences... > Appearance & Behavior > System Settings > Android SDK > aba SDK Platform`).
 
-- Adicionar plugin `cordova plugin add cordova-plugin-firebase`
-> Em 06/05/19 uma atualização do firebase causou um erro no plugin, por isso
-> informar o git https://github.com/dpa99c/cordova-plugin-firebase
-- Outra opção (ao invés do git) é editar o arquivo /platforms/android/project.properties com as opções:
+- Editar arquivo /platforms/android/project.properties com as opções do firebase, uma vez que o plugin `cordova-plugin-firebase` não instala corretamente:
+
 ```
+cordova.gradle.include.1=cordova-plugin-firebase/cooperative-build.gradle
+cordova.system.library.1=com.google.android.gms:play-services-tagmanager:+
 cordova.system.library.2=com.google.firebase:firebase-core:16.0.8
 cordova.system.library.3=com.google.firebase:firebase-messaging:17.5.0
 cordova.system.library.4=com.google.firebase:firebase-config:16.4.1
@@ -59,15 +58,19 @@ cordova.system.library.5=com.google.firebase:firebase-perf:16.2.4
 
 - Atualizar `platforms/androd/cordova-plugin-firebase/cooperative-build.gradle
 
-`compile 'com.google.firebase:firebase-auth:16.2.1'`
+`compile 'com.google.firebase:firebase-auth:+'`
+
+- Se necessário atualizar a versão do google-services para a 4.2.0 no arquivo `platforms/android/build.gradle`: 
+
+`com.google.gms:google-services:4.2.0`
 
 - Em alguns casos é necessário execurar `cordova clean android` para atualizar o processo de build
 
+> Obs.: Há um script "assign.sh" que executa todo o processo de build do android e assinatura. Esse se encotnra na raiz do diretório desse projeto. Basta executá-lo e o mesmo irá realizar os próximos passos para versão 30 e assinatura v2.
 
-# Passo a passo para criar builds android/ios
+# Passo a passo para criar builds android
 - Buildar a aplicação do repositório `sol-cooperative-frontend` com `yarn run build`
 - Criar build android `cordova build android`
-- Criar build iOS `cordova build ios` (`cordova run ios` para rodar o build no simulador do xcode)
 
 
 # Passo para gerar o apk para release
@@ -84,6 +87,7 @@ cordova.system.library.5=com.google.firebase:firebase-perf:16.2.4
 `zipalign -v 4 app-release-unsigned.apk app-release.apk`
 
 - Atualizar play store com o apk gerado `app-release.apk`
+
 
 # Passo bônus para gerar o apk para release
 - Executar o comando `yarn build:android`
