@@ -1,14 +1,14 @@
 {
   "name": "sol-cooperative",
   "displayName": "SOL Associcação",
-  "version": "1.0.13",
+  "version": "1.0.0",
   "description": "Sistema Online de Licitação",
   "main": "index.js",
   "scripts": {
     "build:android": "cordova build android && ./assign.sh",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "CAR",
+  "author": "Projeto Cooperar PB",
   "license": "Apache-2.0",
   "dependencies": {
     "cordova-android": "^8.0.0",
