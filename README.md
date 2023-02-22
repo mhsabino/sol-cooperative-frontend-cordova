@@ -46,7 +46,7 @@ Para adicionar `Android target` você precisa fazer isso pela GUI do Android Stu
 
 - Em alguns casos é necessário execurar `cordova clean android` para atualizar o processo de build
 
-> Obs.: Há um script "assign.sh" que executa todo o processo de build do android e assinatura. Esse se encotnra na raiz do diretório desse projeto. Basta executá-lo e o mesmo irá realizar os próximos passos para versão 30 e assinatura v2.
+> Obs.: Há um script "assign.sh" que executa todo o processo de build do android e assinatura. Ele se encontra na raiz do diretório desse projeto. Basta informar as senhas do store e da aplicação e executá-lo. O script irá realizar os próximos passos de criação do APP para versão SDK 32 e assinatura na versão v2.
 
 # Passo a passo para criar builds android
 - Buildar a aplicação do repositório `sol-cooperative-frontend` com `yarn run build`
@@ -64,11 +64,10 @@ Para adicionar `Android target` você precisa fazer isso pela GUI do Android Stu
 - Importar projeto cordova /platforms/android no Android Studio selecionando a opção "Importar Projeto (Ecipse ADT, Gradle, etc)"
 - Acessar menu Build -> Build Bundle(s)/APK(s) -> Build Bundle(s)
 - Preencher as informações das chaves e senhas. Obs.: As senhas podem ser as mesmas
-- Será gerado um arquivo .aab. O local do arquivo será informado no Anrdoid Studio
+- Será gerado um arquivo .aab. O local do arquivo será informado no Android Studio
 
 # Realizar a assinatura do arquivo aab:
 - No android Studio, acessar o menu Build ->  Generate Signed Bundle / APK
 - Selecionar a opção Bundle, que já vem pré-selecionada
   - Informar a chave gerada no item anterior e a senha cadastrada
 - Será gerada uma private_key.pepk
-
